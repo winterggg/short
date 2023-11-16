@@ -5,7 +5,7 @@ template = '<script>window.location.href="{}";</script>'
 with open('./_/config.txt', encoding='utf-8') as f:
     rules = [r.strip() for r in f.readlines() if r.strip() and not r.startswith('#')]
 
-ignore = ['_', '.github']
+ignore = ['_', '.github', '.git']
 dirs = [dir for dir in os.listdir('.') if not dir in ignore and os.path.isdir(dir)]
 for dir in dirs:
     shutil.rmtree(dir, ignore_errors=True)
