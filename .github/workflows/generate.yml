@@ -1,0 +1,45 @@
+name: Generate
+
+on:
+  # commit on master branch
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    if: github.actor == github.repository_owner
+    env:
+      TOKEN: ${{ secrets.TOKEN }}  # GitHub Personal Access Token，需要在仓库的 Secrets 中设置
+    steps:
+      - name: Echo time in Asia/Shanghai
+        run: TZ=Asia/Shanghai date
+      
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      
+      - name: Run Script
+        run: |
+          python _/script.py
+      
+      - name: Commit
+        run: |
+          if [[ -z $(git status --porcelain) ]]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git config --global user.name "bot"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "bot: generate"
+          git push origin main
