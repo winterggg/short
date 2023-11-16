@@ -2,7 +2,7 @@ import os
 import shutil
 
 template = '<script>window.location.href="{}";</script>'
-template_iframe = '<iframe src="{}" frameborder="0" style="width:100%;height:100%;"></iframe>'
+template_iframe = '<meta name="viewport" content="width=device-width, initial-scale=1.0"><iframe src="{}" frameborder="0" style="width:100%;height:100%;"></iframe>'
 with open('./_/config.txt', encoding='utf-8') as f:
     rules = [r.strip() for r in f.readlines() if r.strip() and not r.startswith('#')]
 
